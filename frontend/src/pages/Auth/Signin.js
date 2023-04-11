@@ -3,9 +3,10 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, u
 import { login } from '../../service'
 import { useNavigate } from 'react-router-dom'
 import { AuthState } from '../../Context/AuthProvider'
+import { Spinner } from '@chakra-ui/react'
 const Signin = () => {
     const navigate = useNavigate()
-    const {user} = AuthState()
+    const { user } = AuthState()
     const toast = useToast()
     const [show, setShow] = useState(false)
     const [loading, setloader] = useState(false)
@@ -19,7 +20,7 @@ const Signin = () => {
     //         navigate('/login')
     //     }
     // }, [user])
-    
+
     const handleClick = () => setShow(!show)
 
     const submitHandler = async () => {
@@ -39,7 +40,7 @@ const Signin = () => {
         await login(data)
             .then((result) => {
                 setloader(false)
-                if(result.data.code==200){
+                if (result.data.code == 200) {
                     localStorage.setItem('token', JSON.stringify(result.data.token))
                     toast({
                         title: "Login Successful",
@@ -49,14 +50,14 @@ const Signin = () => {
                         position: "top-right"
                     })
                     navigate('/home')
-                }else{
+                } else {
                     toast({
                         title: result.data.message,
                         status: "error",
                         duration: 2000,
                         isClosable: true,
                         position: "top-right"
-                    }) 
+                    })
                 }
             })
             .catch((err) => {
@@ -66,30 +67,30 @@ const Signin = () => {
                     duration: 2000,
                     isClosable: true,
                     position: "top-right"
-                }) 
+                })
                 setloader(false)
             })
     }
     return (
-        
+
         <VStack spacing={'5'}>
-        <FormControl id='email1' isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input placeholder='enter Your Email' value={data?.email} onChange={(e) => { setData({ ...data, email: e.target.value }) }} />
-        </FormControl>
-        <FormControl id='password1' isRequired>
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
-                <Input type={show ? "text" : "password"} value={data?.password} placeholder='enter Your Password' onChange={(e) => { setData({ ...data, password: e.target.value }) }} />
-                <InputRightElement pr={'1'}>
-                    <Button onClick={handleClick} h={'1.75rem'} size={'sm'} >{show ? "Hide" : "Show"}</Button>
-                </InputRightElement>
-            </InputGroup>
-        </FormControl>
-        <Button colorScheme={'blue'} width="100%" mt={'1.5'} onClick={submitHandler} >
-            Login
-        </Button>
-    </VStack>
+            <FormControl id='email1' isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input placeholder='enter Your Email' value={data?.email} onChange={(e) => { setData({ ...data, email: e.target.value }) }} />
+            </FormControl>
+            <FormControl id='password1' isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                    <Input type={show ? "text" : "password"} value={data?.password} placeholder='enter Your Password' onChange={(e) => { setData({ ...data, password: e.target.value }) }} />
+                    <InputRightElement pr={'1'}>
+                        <Button onClick={handleClick} h={'1.75rem'} size={'sm'} >{show ? "Hide" : "Show"}</Button>
+                    </InputRightElement>
+                </InputGroup>
+            </FormControl>
+            <Button colorScheme={'blue'} width="100%" mt={'1.5'} onClick={submitHandler} >
+                Login {loading && <Spinner />}
+            </Button>
+        </VStack>
     )
 }
 

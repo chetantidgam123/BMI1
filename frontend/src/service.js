@@ -1,6 +1,6 @@
 import axios from "axios"
-const Url = "http://localhost:3066/"
-// const Url = "https://ecomservice.onrender.com/"
+// const Url = "http://localhost:3066/"
+const Url = "https://bmi-pbco.onrender.com/"
 const token = JSON.parse(localStorage.getItem('token')) || ''
 const config = {
     headers: {
@@ -16,7 +16,16 @@ function registration(body) {
 function login(body) {
     return axios.post(Url + "login", body, config)
 }
+function calculatebmi(body) {
+    return axios.post(Url + "user/calculatebmi", body, config)
+}
+function getUserHistory() {
+    return axios.get(Url + "user/getUserHistory", config)
+}
+function clearhistory() {
+    return axios.get(Url + "user/clearhistory", config)
+}
 
 
 
-export { registration, login}
+export { registration, login, calculatebmi, getUserHistory, clearhistory }

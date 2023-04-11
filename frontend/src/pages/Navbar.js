@@ -24,7 +24,7 @@ const Navbar = () => {
     const [name, setName] = useState('User')
     const cancelRef = React.useRef()
     useEffect(() => {
-        setName(user?.name)
+        setName(user?.firstname)
     }, [user])
 
     const logOutConfirm = () => {
@@ -50,6 +50,9 @@ const Navbar = () => {
                             {name ? <MenuItem onClick={onOpenLogout}>Logout</MenuItem> : <MenuItem onClick={() => { navigate('/login') }}>Login</MenuItem>}
                         </MenuList>
                     </Menu>
+                    <Button onClick={() => { navigate('/profile') }}>
+                        <FaUser></FaUser>
+                    </Button>
                 </Box>
             </Box>
 

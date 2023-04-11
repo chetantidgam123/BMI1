@@ -7,7 +7,6 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState()
-    const [cartItemCount, setCartItemCount] = useState(0)
     const navigate = useNavigate()
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('token'))
@@ -20,7 +19,7 @@ const AuthProvider = ({ children }) => {
     }, [navigate]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser, cartItemCount, setCartItemCount }}>
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
         </AuthContext.Provider>
     )

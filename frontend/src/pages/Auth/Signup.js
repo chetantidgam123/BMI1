@@ -17,47 +17,7 @@ const Signup = () => {
     })
     const handleClick = () => setShow(!show)
 
-    const postDetails = (pics) => {
-        setloader(true);
-        if (pics == undefined) {
-            toast({
-                title: "Please Select an Image!",
-                status: "warning",
-                duration: 5000,
-                isClosable: true,
-                position: "top-right"
-            })
-            return;
-        }
-        if (pics.type === "image/jpeg" || pics.type === "image/png") {
-            const pic = new FormData();
-            pic.append("file", pics);
-            pic.append("upload_preset", "chat-app");
-            pic.append("cloud_name", "dj3shw4tc");
-            fetch("https://api.cloudinary.com/v1_1/dj3shw4tc/image/upload", {
-                method: "post",
-                body: pic
-            })
-                .then((res) => res.json())
-                .then((picdata) => {
-                    setData({ ...data, pic: picdata.url.toString() });
-                    setloader(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setloader(false)
-                })
 
-        } else {
-            toast({
-                title: "Please Select an Image!",
-                status: "warning",
-                duration: 5000,
-                isClosable: true,
-                position: "top-right"
-            })
-        }
-    }
 
     const submitHandler = async () => {
         setloader(true);
@@ -80,6 +40,7 @@ const Signup = () => {
                 isClosable: true,
                 position: "top-right"
             })
+            setloader(false);
             return
         }
         await registration(data)
@@ -92,7 +53,8 @@ const Signup = () => {
                     isClosable: true,
                     position: "top-right"
                 })
-                window.location.reload()
+                navigate('/login')
+                // window.location.reload()
             })
             .catch((err) => {
                 console.log(err)

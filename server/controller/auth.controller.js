@@ -6,10 +6,10 @@ const token_secret = process.env.TOKEN_KEY;
 const validateUser = async (data) => {
   let { email, password } = data;
   try {
-    let user = await UserModel.findOne({ email:email });
+    let user = await UserModel.findOne({ email: email });
 
     if (user) {
-      if (user.password==password) {
+      if (user.password == password) {
         return user;
       } else {
         return false;
@@ -33,7 +33,7 @@ const signupUser = async (req, res) => {
       message: "already registerd"
     })
   }
-  let user = await UserModel.create({ firstname: firstname, lastname: lastname, email: email, password: password,role:'user' })
+  let user = await UserModel.create({ firstname: firstname, lastname: lastname, email: email, password: password, role: 'user' })
   if (user) {
     return res.send({
       code: 200,
@@ -55,14 +55,12 @@ const loginUser = async (req, res) => {
   let user = await validateUser({ email, password });
   if (user) {
     let token = jwt.sign(
-      { userId: user._id, email: user.email, name: user.firstname,role:user.role },
+      { userId: user._id, email: user.email, lastname: user.lastname, firstname: user.firstname },
       token_secret,
       {
         expiresIn: "7 days",
       }
     );
-
-
     res.status(200).send({ code: 200, status: true, token, message: "Login Successfully" });
   } else {
     return res.send({ code: 404, status: false, message: "something went wrong" });
